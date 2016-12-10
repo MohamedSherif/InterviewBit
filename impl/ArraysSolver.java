@@ -351,29 +351,140 @@ public class ArraysSolver {
 		}
 		return maxArray;
 	}
-	
-	
-	
-	public static int maximumGap(ArrayList<Integer> nums){
+
+	public static int maximumGap(ArrayList<Integer> nums) {
 		int n = nums.size();
-		
-		if(n <= 1)
+
+		if (n <= 1)
 			return 0;
-		
+
 		Collections.sort(nums);
-		
+
 		ArrayList<Integer> gaps = new ArrayList<Integer>();
-		
-		for (int i = n-1; i > 0; i--) {
-			gaps.add(nums.get(i) - nums.get(i-1));
+
+		for (int i = n - 1; i > 0; i--) {
+			gaps.add(nums.get(i) - nums.get(i - 1));
 		}
-		
+
 		Collections.sort(gaps);
-		
-		
-		return gaps.get(gaps.size()-1);
+
+		return gaps.get(gaps.size() - 1);
 	}
 
+
+	public int equilibriumIndex(int[] A) {
+        // write your code in Java SE 8
+        
+        int ret = -1;
+        long rightSum = 0;
+        long leftSum = 0;
+        
+        for(int i=0; i < A.length; i++){
+            rightSum += A[i];
+        }
+        
+        for(int i=0; i < A.length; i++){
+            long tempSum = rightSum - A[i];
+            if(leftSum == tempSum)
+                return i;
+                
+            leftSum+=A[i];
+            rightSum = tempSum;
+        }
+        
+        return ret;
+    }
+
+	
+	public static void rotateMatrix(int[][] nums){
+		int n = nums.length;
+		int m = nums[0].length;
+		
+		int [][] temp = new int[n][n];
+		
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				temp[j][(n-1-i)] = nums[i][j];
+			}
+		}
+		
+		for (int i = 0; i < temp.length; i++) {
+			for (int j = 0; j < temp.length; j++) {
+				if (j == 0) {
+					System.out.print("[" + temp[i][j] + ",");
+				} else if (j == n - 1) {
+					System.out.print(temp[i][j] + "]");
+				} else {
+					System.out.print(temp[i][j] + ",");
+				}
+			}
+			System.out.println();
+		}
+	}
+	
+	 
+	 
+	// An Inplace function to rotate a N x N matrix
+	// by 90 degrees in anti-clockwise direction
+	public static void rotateMatrix2(int mat[][])
+	{
+		int n = mat.length;
+		
+	    // Consider all squares one by one
+	    for (int i = 0; i < n / 2; i++)
+	    {
+	        // Consider elements in group of 4 in 
+	        // current square
+	        for (int j = i; j < n-i-1; j++)
+	        {
+	            // store current cell in temp variable
+	            int temp = mat[i][j];
+	            
+	            // move values from top to right
+	            mat[i][j] = mat[n-1-j][i];
+	            
+	            // move values from right to bottom
+	            mat[n-1-j][i] = mat[n-1-i][n-1-j];
+	            
+	            // move values from bottom to left
+	            mat[n-1-i][n-1-j] = mat[j][n-1-i];
+	            
+	            // assign temp to bottom
+	            mat[j][n-1-i] = temp;
+	        }
+	    }
+	}
+	
+	public static void rotate(ArrayList<ArrayList<Integer>> a)
+	{
+		int n = a.size();
+		
+	    // Consider all squares one by one
+	    for (int i = 0; i < n / 2; i++)
+	    {
+	        // Consider elements in group of 4 in 
+	        // current square
+	        for (int j = i; j < n-i-1; j++)
+	        {
+	            // store current cell in temp variable
+	            int temp = a.get(i).get(j);
+	            
+	            // move values from top to right
+	            a.get(i).set(j, a.get(n-1-j).get(i)); // mat[n-1-j][i];
+	            
+	            // move values from right to bottom
+	            a.get(n-1-j).set(i, a.get(n-1-i).get(n-1-j)); // mat[n-1-i][n-1-j];
+	            
+	            // move values from bottom to left
+	            a.get(n-1-i).set(n-1-j, a.get(j).get(n-1-i)); //[n-1-j] = mat[j][n-1-i];
+	            
+	            // assign temp to bottom
+	            a.get(j).set(n-1-i, temp);//[j][n-1-i] = temp;
+	        }
+	    }
+	}
+	
+	
 	public static void main(String[] args) {
 		// int[][] a = { { 0, 1 }, { 1, 1 } };
 		//
@@ -389,30 +500,50 @@ public class ArraysSolver {
 		// int[] a = { 2, -1, -2, 1, -4, 2, 8 };
 		// System.out.println(maxDifSubArr(a));
 
-//		ArrayList<Integer> nums = new ArrayList<Integer>();
-//
-//		nums.add(1);
-//		nums.add(2);
-//		nums.add(5);
-//		nums.add(-7);
-//		nums.add(2);
-//		nums.add(3);
+		// ArrayList<Integer> nums = new ArrayList<Integer>();
+		//
+		// nums.add(1);
+		// nums.add(2);
+		// nums.add(5);
+		// nums.add(-7);
+		// nums.add(2);
+		// nums.add(3);
 
-//		ArrayList<Integer> res = maxset(nums);
-//		for (int i : res) {
-//			System.out.println(i);
-//		}
+		// ArrayList<Integer> res = maxset(nums);
+		// for (int i : res) {
+		// System.out.println(i);
+		// }
+//
+//		ArrayList<Integer> nums = new ArrayList<Integer>();
+//		nums.add(1);
+//		nums.add(10);
+//		nums.add(15);
+//		nums.add(12);
+//		nums.add(11);
+//		nums.add(18);
+//		nums.add(20);
+//
+//		System.out.println(maximumGap(nums));
+
 		
-		ArrayList<Integer> nums = new ArrayList<Integer>();
-		nums.add(1);
-		nums.add(10);
-		nums.add(15);
-		nums.add(12);
-		nums.add(11);
-		nums.add(18);
-		nums.add(20);
+		int[][] nums = {{1,2,3,4},
+						{5,6,7,8},
+						{9,10,11,12},
+						{13,14,15,16}};
 		
-		System.out.println(maximumGap(nums));
+		rotateMatrix2(nums);
 		
+		for (int i = 0; i < nums.length; i++) {
+			for (int j = 0; j < nums.length; j++) {
+				if (j == 0) {
+					System.out.print("[" + nums[i][j] + ",");
+				} else if (j == nums.length - 1) {
+					System.out.print(nums[i][j] + "]");
+				} else {
+					System.out.print(nums[i][j] + ",");
+				}
+			}
+			System.out.println();
+		}
 	}
 }
