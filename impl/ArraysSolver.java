@@ -371,43 +371,102 @@ public class ArraysSolver {
 		return gaps.get(gaps.size() - 1);
 	}
 
-
+	/**
+	 * This is a demo task.
+	 * 
+	 * A zero-indexed array A consisting of N integers is given. An equilibrium
+	 * index of this array is any integer P such that 0 ≤ P < N and the sum of
+	 * elements of lower indices is equal to the sum of elements of higher
+	 * indices, i.e. A[0] + A[1] + ... + A[P−1] = A[P+1] + ... + A[N−2] +
+	 * A[N−1]. Sum of zero elements is assumed to be equal to 0. This can happen
+	 * if P = 0 or if P = N−1.
+	 * 
+	 * For example, consider the following array A consisting of N = 8 elements:
+	 * 
+	 * A[0] = -1 
+	 * A[1] = 3 
+	 * A[2] = -4 
+	 * A[3] = 5 
+	 * A[4] = 1 
+	 * A[5] = -6 
+	 * A[6] = 2 
+	 * A[7] = 1
+	 *  
+	 * P = 1 is an equilibrium index of this array, because:
+	 * 
+	 * A[0] = −1 = A[2] + A[3] + A[4] + A[5] + A[6] + A[7] 
+	 * 
+	 * P = 3 is an equilibrium index of this array, because:
+	 * 
+	 * A[0] + A[1] + A[2] = −2 = A[4] + A[5] + A[6] + A[7] 
+	 * 
+	 * P = 7 is also an equilibrium index, because:
+	 * 
+	 * A[0] + A[1] + A[2] + A[3] + A[4] + A[5] + A[6] = 0 
+	 * and there are no elements with indices greater than 7.
+	 * 
+	 * P = 8 is not an equilibrium index, because it does not fulfill the
+	 * condition 0 ≤ P < N.
+	 * 
+	 * Write a function:
+	 * 
+	 * class Solution { public int solution(int[] A); } that, given a
+	 * zero-indexed array A consisting of N integers, returns any of its
+	 * equilibrium indices. The function should return −1 if no equilibrium
+	 * index exists.
+	 * 
+	 * For example, given array A shown above, the function may return 1, 3 or
+	 * 7, as explained above.
+	 * 
+	 * Assume that:
+	 * 
+	 * N is an integer within the range [0..100,000]; each element of array A is
+	 * an integer within the range [−2,147,483,648..2,147,483,647]. Complexity:
+	 * 
+	 * expected worst-case time complexity is O(N); expected worst-case space
+	 * complexity is O(N), beyond input storage (not counting the storage
+	 * required for input arguments). Elements of input arrays can be modified.
+	 * Copyright 2009–2016 by Codility Limited. All Rights Reserved.
+	 * Unauthorized copying, publication or disclosure prohibited.
+	 * 
+	 * @param A
+	 * @return
+	 */
 	public int equilibriumIndex(int[] A) {
-        // write your code in Java SE 8
-        
-        int ret = -1;
-        long rightSum = 0;
-        long leftSum = 0;
-        
-        for(int i=0; i < A.length; i++){
-            rightSum += A[i];
-        }
-        
-        for(int i=0; i < A.length; i++){
-            long tempSum = rightSum - A[i];
-            if(leftSum == tempSum)
-                return i;
-                
-            leftSum+=A[i];
-            rightSum = tempSum;
-        }
-        
-        return ret;
-    }
+		// write your code in Java SE 8
 
-	
-	public static void rotateMatrix(int[][] nums){
+		int ret = -1;
+		long rightSum = 0;
+		long leftSum = 0;
+
+		for (int i = 0; i < A.length; i++) {
+			rightSum += A[i];
+		}
+
+		for (int i = 0; i < A.length; i++) {
+			long tempSum = rightSum - A[i];
+			if (leftSum == tempSum)
+				return i;
+
+			leftSum += A[i];
+			rightSum = tempSum;
+		}
+
+		return ret;
+	}
+
+	public static void rotateMatrix(int[][] nums) {
 		int n = nums.length;
 		int m = nums[0].length;
-		
-		int [][] temp = new int[n][n];
-		
+
+		int[][] temp = new int[n][n];
+
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
-				temp[j][(n-1-i)] = nums[i][j];
+				temp[j][(n - 1 - i)] = nums[i][j];
 			}
 		}
-		
+
 		for (int i = 0; i < temp.length; i++) {
 			for (int j = 0; j < temp.length; j++) {
 				if (j == 0) {
@@ -421,70 +480,63 @@ public class ArraysSolver {
 			System.out.println();
 		}
 	}
-	
-	 
-	 
+
 	// An Inplace function to rotate a N x N matrix
 	// by 90 degrees in anti-clockwise direction
-	public static void rotateMatrix2(int mat[][])
-	{
+	public static void rotateMatrix2(int mat[][]) {
 		int n = mat.length;
-		
-	    // Consider all squares one by one
-	    for (int i = 0; i < n / 2; i++)
-	    {
-	        // Consider elements in group of 4 in 
-	        // current square
-	        for (int j = i; j < n-i-1; j++)
-	        {
-	            // store current cell in temp variable
-	            int temp = mat[i][j];
-	            
-	            // move values from top to right
-	            mat[i][j] = mat[n-1-j][i];
-	            
-	            // move values from right to bottom
-	            mat[n-1-j][i] = mat[n-1-i][n-1-j];
-	            
-	            // move values from bottom to left
-	            mat[n-1-i][n-1-j] = mat[j][n-1-i];
-	            
-	            // assign temp to bottom
-	            mat[j][n-1-i] = temp;
-	        }
-	    }
+
+		// Consider all squares one by one
+		for (int i = 0; i < n / 2; i++) {
+			// Consider elements in group of 4 in
+			// current square
+			for (int j = i; j < n - i - 1; j++) {
+				// store current cell in temp variable
+				int temp = mat[i][j];
+
+				// move values from top to right
+				mat[i][j] = mat[n - 1 - j][i];
+
+				// move values from right to bottom
+				mat[n - 1 - j][i] = mat[n - 1 - i][n - 1 - j];
+
+				// move values from bottom to left
+				mat[n - 1 - i][n - 1 - j] = mat[j][n - 1 - i];
+
+				// assign temp to bottom
+				mat[j][n - 1 - i] = temp;
+			}
+		}
 	}
-	
-	public static void rotate(ArrayList<ArrayList<Integer>> a)
-	{
+
+	public static void rotate(ArrayList<ArrayList<Integer>> a) {
 		int n = a.size();
-		
-	    // Consider all squares one by one
-	    for (int i = 0; i < n / 2; i++)
-	    {
-	        // Consider elements in group of 4 in 
-	        // current square
-	        for (int j = i; j < n-i-1; j++)
-	        {
-	            // store current cell in temp variable
-	            int temp = a.get(i).get(j);
-	            
-	            // move values from top to right
-	            a.get(i).set(j, a.get(n-1-j).get(i)); // mat[n-1-j][i];
-	            
-	            // move values from right to bottom
-	            a.get(n-1-j).set(i, a.get(n-1-i).get(n-1-j)); // mat[n-1-i][n-1-j];
-	            
-	            // move values from bottom to left
-	            a.get(n-1-i).set(n-1-j, a.get(j).get(n-1-i)); //[n-1-j] = mat[j][n-1-i];
-	            
-	            // assign temp to bottom
-	            a.get(j).set(n-1-i, temp);//[j][n-1-i] = temp;
-	        }
-	    }
+
+		// Consider all squares one by one
+		for (int i = 0; i < n / 2; i++) {
+			// Consider elements in group of 4 in
+			// current square
+			for (int j = i; j < n - i - 1; j++) {
+				// store current cell in temp variable
+				int temp = a.get(i).get(j);
+
+				// move values from top to right
+				a.get(i).set(j, a.get(n - 1 - j).get(i)); // mat[n-1-j][i];
+
+				// move values from right to bottom
+				a.get(n - 1 - j).set(i, a.get(n - 1 - i).get(n - 1 - j)); // mat[n-1-i][n-1-j];
+
+				// move values from bottom to left
+				a.get(n - 1 - i).set(n - 1 - j, a.get(j).get(n - 1 - i)); // [n-1-j]
+																			// =
+																			// mat[j][n-1-i];
+
+				// assign temp to bottom
+				a.get(j).set(n - 1 - i, temp);// [j][n-1-i] = temp;
+			}
+		}
 	}
-	
-	
+
 	public static void main(String[] args) {
 		// int[][] a = { { 0, 1 }, { 1, 1 } };
 		//
@@ -513,26 +565,22 @@ public class ArraysSolver {
 		// for (int i : res) {
 		// System.out.println(i);
 		// }
-//
-//		ArrayList<Integer> nums = new ArrayList<Integer>();
-//		nums.add(1);
-//		nums.add(10);
-//		nums.add(15);
-//		nums.add(12);
-//		nums.add(11);
-//		nums.add(18);
-//		nums.add(20);
-//
-//		System.out.println(maximumGap(nums));
+		//
+		// ArrayList<Integer> nums = new ArrayList<Integer>();
+		// nums.add(1);
+		// nums.add(10);
+		// nums.add(15);
+		// nums.add(12);
+		// nums.add(11);
+		// nums.add(18);
+		// nums.add(20);
+		//
+		// System.out.println(maximumGap(nums));
 
-		
-		int[][] nums = {{1,2,3,4},
-						{5,6,7,8},
-						{9,10,11,12},
-						{13,14,15,16}};
-		
+		int[][] nums = { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 }, { 13, 14, 15, 16 } };
+
 		rotateMatrix2(nums);
-		
+
 		for (int i = 0; i < nums.length; i++) {
 			for (int j = 0; j < nums.length; j++) {
 				if (j == 0) {
