@@ -13,9 +13,7 @@ public class MathsSolver {
 	 * 
 	 * NOTE A solution will always exist. read Goldbach’s conjecture
 	 * 
-	 * Example:
-	 * 	Input : 4 
-	 * 	Output: 2 + 2 = 4
+	 * Example: Input : 4 Output: 2 + 2 = 4
 	 * 
 	 * If there are more than one solutions possible, return the
 	 * lexicographically smaller solution.
@@ -88,6 +86,56 @@ public class MathsSolver {
 			}
 		}
 		return true;
+	}
+	// ============================================================
+
+	/**
+	 * Given a positive integer which fits in a 32 bit signed integer, find if
+	 * it can be expressed as A^P where P > 1 and A > 0. A and P both should be
+	 * integers.
+	 * 
+	 * Example
+	 * 
+	 * 	Input : 4 
+	 * Output : True as 2^2 = 4. 
+	 * 
+	 * @param A
+	 * @return
+	 */
+	public boolean isPower1(int A) {
+
+		double x = 2;
+		double i;
+		if (A == 1)
+			return true;
+
+		// largest number as power for 32 bit integer 2^32
+		// 2^16 can have one power (2^16)^2 = 2^32
+		for (i = 2; (i < 33) && (x <= (double) (Math.pow(2, 16))); i++) {
+			if (Math.pow(x, i) == (double) A)
+				return true;
+			
+			if (Math.pow(x, i) >= Math.pow(2, 32)) {
+				i = 1;
+				x++;
+			}
+		}
+		return false;
+	}
+
+	public boolean isPower2(int A) {
+
+		if (A == 1)
+			return true;
+		for (double x = 2; x <= Math.pow(2, 16); x++) {
+			for (double i = 2; i < 33; i++) {
+				if (Math.pow(x, i) == A)
+					return true;
+				if (Math.pow(x, i) >= Math.pow(2, 32))
+					break;
+			}
+		}
+		return false;
 	}
 
 	public static void main(String[] args) {
