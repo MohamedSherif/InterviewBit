@@ -96,8 +96,7 @@ public class MathsSolver {
 	 * 
 	 * Example
 	 * 
-	 * 	Input : 4 
-	 * Output : True as 2^2 = 4. 
+	 * Input : 4 Output : True as 2^2 = 4.
 	 * 
 	 * @param A
 	 * @return
@@ -114,7 +113,7 @@ public class MathsSolver {
 		for (i = 2; (i < 33) && (x <= (double) (Math.pow(2, 16))); i++) {
 			if (Math.pow(x, i) == (double) A)
 				return true;
-			
+
 			if (Math.pow(x, i) >= Math.pow(2, 32)) {
 				i = 1;
 				x++;
@@ -136,6 +135,45 @@ public class MathsSolver {
 			}
 		}
 		return false;
+	}
+
+
+	/**
+	 * Rearrange a given array so that Arr[i] becomes Arr[Arr[i]] with O(1)
+	 * extra space.
+	 * 
+	 * Example:
+	 * 
+	 * 	Input : [1, 0] 
+	 * Return : [0, 1]
+	 * 
+	 * @param a
+	 */
+	public void arrange(ArrayList<Integer> a) {
+		if (a == null || a.size() == 0)
+			return;
+
+		int n = a.size();
+		
+		/*
+		 * the array contains elements from 0-n-1, a total of n elements, if we do
+		 * a[i]%n, it will always return a[i] as the maximum the array can hold is
+		 * n-1. Now, if we do a[a[i]]*n+a[i], then this will hold both the old value
+		 * and new value if we do not (a[a[i]]*n+a[i])/n we get the new val for i,
+		 * (a[a[i]]*n+a[i])%n we get back the old val
+		 */
+		
+		for (int i = 0; i < a.size(); i++) {
+			int nextVal = (a.get(a.get(i)) % n) * n + a.get(i);
+			// %n is necessary because the values are getting change
+			// if we want to retrieve the prev value do (mod n)
+			a.set(i, nextVal);
+		}
+
+		for (int i = 0; i < a.size(); i++) {
+			int nVal = a.get(i) / n;
+			a.set(i, nVal);
+		}
 	}
 
 	public static void main(String[] args) {
