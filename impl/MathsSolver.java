@@ -2,6 +2,7 @@ package impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 public class MathsSolver {
 
@@ -137,15 +138,13 @@ public class MathsSolver {
 		return false;
 	}
 
-
 	/**
 	 * Rearrange a given array so that Arr[i] becomes Arr[Arr[i]] with O(1)
 	 * extra space.
 	 * 
 	 * Example:
 	 * 
-	 * 	Input : [1, 0] 
-	 * Return : [0, 1]
+	 * Input : [1, 0] Return : [0, 1]
 	 * 
 	 * @param a
 	 */
@@ -154,15 +153,15 @@ public class MathsSolver {
 			return;
 
 		int n = a.size();
-		
+
 		/*
-		 * the array contains elements from 0-n-1, a total of n elements, if we do
-		 * a[i]%n, it will always return a[i] as the maximum the array can hold is
-		 * n-1. Now, if we do a[a[i]]*n+a[i], then this will hold both the old value
-		 * and new value if we do not (a[a[i]]*n+a[i])/n we get the new val for i,
-		 * (a[a[i]]*n+a[i])%n we get back the old val
+		 * the array contains elements from 0-n-1, a total of n elements, if we
+		 * do a[i]%n, it will always return a[i] as the maximum the array can
+		 * hold is n-1. Now, if we do a[a[i]]*n+a[i], then this will hold both
+		 * the old value and new value if we do not (a[a[i]]*n+a[i])/n we get
+		 * the new val for i, (a[a[i]]*n+a[i])%n we get back the old val
 		 */
-		
+
 		for (int i = 0; i < a.size(); i++) {
 			int nextVal = (a.get(a.get(i)) % n) * n + a.get(i);
 			// %n is necessary because the values are getting change
@@ -176,13 +175,129 @@ public class MathsSolver {
 		}
 	}
 
-	public static void main(String[] args) {
-		fillPrimes(25);
-		for (int i = 0; i < isPrime.length; i++) {
-			if (isPrime[i] == true) {
-				System.out.println(i + " - " + isPrime[i]);
+	public static int getGcd(int a, int b) {
+		int gcd = 1;
+
+		for (int i = 1; (i < a) && (i < b); i++) {
+			if (a % i == 0 && b % i == 0) {
+				if (gcd < i) {
+					gcd = i;
+				}
 			}
 		}
+
+		return gcd;
+	}
+
+	/**
+	 * A recursive method would be:
+	 * 
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+
+	static int gcd(int a, int b) {
+		if (a == 0 || b == 0)
+			return a + b; // base case
+		return gcd(b, a % b);
+	}
+
+	/**
+	 * Using a while loop:
+	 * 
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+
+	static int gcd2(int a, int b) {
+		while (a != 0 && b != 0) // until either one of them is 0
+		{
+			int c = b;
+			b = a % b;
+			a = c;
+		}
+		return a + b; // either one is 0, so return the non-zero value
+	}
+
+	/**
+	 * Determine whether an integer is a palindrome. Do this without extra
+	 * space.
+	 * 
+	 * A palindrome integer is an integer x for which reverse(x) = x where
+	 * reverse(x) is x with its digit reversed. Negative numbers are not
+	 * palindromic.
+	 * 
+	 * Example :
+	 * 
+	 * 	Input : 12121 
+	 * Output : True
+	 * 
+	 * 	Input : 123 
+	 * Output : False See Expected Output
+	 * 
+	 * @param a
+	 * @return
+	 */
+
+	public static boolean isPalindromeNum(int a) {
+		int rev = 0;
+		int num = a;
+
+		while (num > 0) {
+			int dig = num % 10;
+
+			rev = (rev * 10) + dig;
+
+			num = num / 10;
+		}
+
+		if (rev == a)
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * InterviewBit Answer.
+	 * 
+	 * @param A
+	 * @return
+	 */
+	public int isPalindrome(int A) {
+		String str = String.valueOf(A);
+		boolean pal = palindrome(str);
+		return pal ? 1 : 0;
+	}
+
+	public boolean palindrome(String str) {
+		int start = 0;
+		int end = str.length() - 1;
+
+		while (start < end) {
+			if (str.charAt(start) != str.charAt(end))
+				return false;
+			start++;
+			end--;
+		}
+
+		return true;
+	}
+	// ******************************************************************
+
+	public static void main(String[] args) {
+		// fillPrimes(25);
+		// for (int i = 0; i < isPrime.length; i++) {
+		// if (isPrime[i] == true) {
+		// System.out.println(i + " - " + isPrime[i]);
+		// }
+		// }
+		// System.out.println(System.currentTimeMillis());
+		// System.out.println(getGcd(54, 24));
+		// System.out.println(System.currentTimeMillis());
+
+		System.out.println(isPalindromeNum(2147447412));
 	}
 
 }
