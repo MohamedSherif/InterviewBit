@@ -285,18 +285,10 @@ public class MathsSolver {
 	// ******************************************************************
 
 	/**
-	 * Excel Column Number:
-	 * 	Given a column title as appears in an Excel sheet, return its
-	 * 	corresponding column number.
+	 * Excel Column Number: Given a column title as appears in an Excel sheet,
+	 * return its corresponding column number.
 	 * 
-	 * Example:
-	 * 		A -> 1
-	 * 		B -> 2
-	 * 		C -> 3
-	 * 		...
-	 * 		Z -> 26
-	 * 		AA -> 27
-	 * 		AB -> 28
+	 * Example: A -> 1 B -> 2 C -> 3 ... Z -> 26 AA -> 27 AB -> 28
 	 * 
 	 * @param A
 	 * @return
@@ -331,11 +323,153 @@ public class MathsSolver {
 
 		return value;
 	}
-//**************************************************************
+	// **************************************************************
+
+	/**
+	 * Reverse digits of an integer.
+	 * 
+	 * Example1:
+	 * 
+	 * x = 123,
+	 * 
+	 * return 321 Example2:
+	 * 
+	 * x = -123,
+	 * 
+	 * return -321
+	 * 
+	 * Return 0 if the result overflows and does not fit in a 32 bit signed
+	 * integer
+	 * 
+	 * @param num
+	 * @return
+	 */
+	public static int reverseInteger(int num) {
+		long rev = 0;
+		
+		int sign = (num < 0)? -1 : 1;
+
+		int temp = Math.abs(num);
+
+		while (temp > 0) {
+			rev = rev * 10 + temp % 10;
+			if (rev > Integer.MAX_VALUE) {
+				return 0;
+			}
+			temp = temp / 10;
+		}
+
+		rev = rev * sign;
+		
+		return (int) rev;
+	}
+	/**
+	 * Another correct answer.
+	 * 
+	 * @param A
+	 * @return
+	 */
+	public static int reverse(int A) {
+		// use long to monitor Stack Overflow
+		long result = 0;
+		while (A != 0) {
+			result = result * 10 + (A % 10);
+			A = A / 10;
+		}
+		if (result > Integer.MAX_VALUE || result < Integer.MIN_VALUE) {
+			return 0;
+		} else {
+			return (int) result;
+		}
+	}
+	
+	/**
+	 * This was firstly submitted and failed in the case of integer overflow
+	 * 
+	 * -1146467285
+	 * 
+	 * @param num
+	 * @return
+	 */
+	public int reverseIntegerWrong(int num) {
+        // use long to monitor Stack Overflow
+       int rev = 0;
+		int dig = 0;
+
+		boolean isNigative = false;
+
+		if (num < 0) {
+			isNigative = true;
+		}
+
+		int temp = Math.abs(num);
+
+		while (temp > 0) {
+			dig = temp % 10;
+
+			rev = rev * 10 + dig;
+
+			temp = temp / 10;
+		}
+
+		if (isNigative) {
+			rev = rev * -1;
+		}
+		if (rev > Integer.MAX_VALUE || rev < Integer.MIN_VALUE) {
+			return 0;
+		}
+		return rev;
+    }
 	
 	
-	
-	
+
+	/**
+	 * Website Complete Solution after submit
+	 * 
+	 * @param args
+	 */
+
+	public int reverse2(int A) {
+		int reverse = A;
+		int sign = 1;
+
+		if (A < 0) {
+			A *= -1;
+			sign = -1;
+		}
+
+		reverse = reverseOf(A);
+
+		if (reverse == Integer.MIN_VALUE)
+			return 0;
+
+		reverse *= sign;
+
+		return reverse;
+
+	}
+
+	public int reverseOf(int num) {
+
+		int newNum = 0;
+
+		while (num > 0) {
+			int digit = num % 10;
+
+			if (newNum > Integer.MAX_VALUE / 10
+					|| ((newNum == Integer.MAX_VALUE / 10) && digit > Integer.MAX_VALUE % 10)) {
+				return Integer.MIN_VALUE;
+			}
+
+			newNum = newNum * 10 + digit;
+			num /= 10;
+		}
+
+		return (int) newNum;
+
+	}
+	// ******************************************************************
+
 	public static void main(String[] args) {
 		// fillPrimes(25);
 		// for (int i = 0; i < isPrime.length; i++) {
@@ -349,7 +483,11 @@ public class MathsSolver {
 
 		// System.out.println(isPalindromeNum(2147447412));
 
-		System.out.println(excelColumnNumber("AB"));
+		// System.out.println(excelColumnNumber("AB"));
+
+		System.out.println(reverseInteger(-1146467285));
+		
+//		System.out.println(reverse(-1146467285));
 
 	}
 
