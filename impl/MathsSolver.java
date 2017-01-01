@@ -323,49 +323,49 @@ public class MathsSolver {
 
 		return value;
 	}
-	
-	public static String numberToTitle(int a){
+
+	public static String numberToTitle(int a) {
 		String result = "";
-		
+
 		char[] alphabet = new char[26];
-		
+
 		for (char ch = 'A'; ch <= 'Z'; ch++) {
 			alphabet[ch - 'A'] = ch;
 		}
-		
-		if(a < 26){
-			result += alphabet[a-1];
+
+		if (a < 26) {
+			result += alphabet[a - 1];
 			return result;
 		}
-		
-		while(a > 0){
+
+		while (a > 0) {
 			int index = a;
-			if(a%26 == 0){
+			if (a % 26 == 0) {
 				index = 26;
 				a = a - 26;
-			}else{
-				index = a%26;
+			} else {
+				index = a % 26;
 			}
-			result = alphabet[index-1] + result;
-			
+			result = alphabet[index - 1] + result;
+
 			a = a / 26;
 		}
-		
+
 		return result;
 	}
-	
+
 	public static String convertToTitle(int n) {
-        StringBuilder result = new StringBuilder();
+		StringBuilder result = new StringBuilder();
 
-        while(n>0){
-            n--;
-            result.insert(0, (char)('A' + n % 26));
-            n /= 26;
-        }
+		while (n > 0) {
+			n--;
+			result.insert(0, (char) ('A' + n % 26));
+			n /= 26;
+		}
 
-        return result.toString();
-    }
-	
+		return result.toString();
+	}
+
 	// **************************************************************
 
 	/**
@@ -389,8 +389,8 @@ public class MathsSolver {
 	 */
 	public static int reverseInteger(int num) {
 		long rev = 0;
-		
-		int sign = (num < 0)? -1 : 1;
+
+		int sign = (num < 0) ? -1 : 1;
 
 		int temp = Math.abs(num);
 
@@ -403,9 +403,10 @@ public class MathsSolver {
 		}
 
 		rev = rev * sign;
-		
+
 		return (int) rev;
 	}
+
 	/**
 	 * Another correct answer.
 	 * 
@@ -425,7 +426,7 @@ public class MathsSolver {
 			return (int) result;
 		}
 	}
-	
+
 	/**
 	 * This was firstly submitted and failed in the case of integer overflow
 	 * 
@@ -435,8 +436,8 @@ public class MathsSolver {
 	 * @return
 	 */
 	public int reverseIntegerWrong(int num) {
-        // use long to monitor Stack Overflow
-       int rev = 0;
+		// use long to monitor Stack Overflow
+		int rev = 0;
 		int dig = 0;
 
 		boolean isNigative = false;
@@ -462,9 +463,7 @@ public class MathsSolver {
 			return 0;
 		}
 		return rev;
-    }
-	
-	
+	}
 
 	/**
 	 * Website Complete Solution after submit
@@ -513,29 +512,98 @@ public class MathsSolver {
 	}
 	// ******************************************************************
 
-	
-	public static int num(int i){
-	    int j = 1;
-	    int num = 1;
-	    while(j <= i){
-	        num = num*5;
-	        j++;
-	    }
-	    return num;
+	public static int num(int i) {
+		int j = 1;
+		int num = 1;
+		while (j <= i) {
+			num = num * 5;
+			j++;
+		}
+		return num;
 	}
-	
+
 	public static int trailingZeroes(int A) {
 		int count = 0;
-	    int i = 1;
-	    while(num(i) <= A){
-	        count = count + (A/num(i));
-	        i++;
-	    }
-	    return count;
+		int i = 1;
+		while (num(i) <= A) {
+			count = count + (A / num(i));
+			i++;
+		}
+		return count;
 	}
+	// ***********************************************************
+
+	/**
+	 * A robot is located at the top-left corner of an A x B grid (marked
+	 * ‘Start’ in the diagram below).
+	 * 
+	 * The robot can only move either down or right at any point in time. The
+	 * robot is trying to reach the bottom-right corner of the grid (marked
+	 * ‘Finish’ in the diagram below).
+	 * 
+	 * How many possible unique paths are there?
+	 * 
+	 * Note: A and B will be such that the resulting answer fits in a 32 bit
+	 * signed integer.
+	 * 
+	 * Example :
+	 * 
+	 * Input : A = 2, B = 2 Output : 2
+	 * 
+	 * 2 possible routes : (0, 0) -> (0, 1) -> (1, 1) 
+	 * 				  OR : (0, 0) -> (1, 0) -> (1, 1)
+	 * 
+	 * @param r
+	 * @param c
+	 * @param m
+	 * @param n
+	 * @return
+	 */
+
+	public static int topDown(int m, int n) {
+		int mat[][] = new int[m + 2][n + 2];
+		for (int i = 0; i < m + 2; i++) {
+			for (int j = 0; j < n + 2; j++) {
+				mat[i][j] = -1;
+			}
+		}
+		return backtrack(1, 1, m, n, mat);
+	}
+
+	public static int backtrack(int r, int c, int m, int n, int mat[][]) {
+		if (r == m && c == n)
+			return 1;
+		if (r > m || c > n)
+			return 0;
+
+		if (mat[r + 1][c] == -1)
+			mat[r + 1][c] = backtrack(r + 1, c, m, n, mat);
+		if (mat[r][c + 1] == -1)
+			mat[r][c + 1] = backtrack(r, c + 1, m, n, mat);
+
+		return mat[r + 1][c] + mat[r][c + 1];
+	}
+
 	
-	
-	
+	public static int dp_BottomUp(int m, int n) {
+		int mat[][] = new int[m + 2][n + 2];
+
+		for (int i = 0; i < m + 2; i++) {
+			for (int j = 0; j < n + 2; j++) {
+				mat[i][j] = 0;
+			}
+		}
+
+		mat[m][n + 1] = 1;
+
+		for (int r = m; r >= 1; r--) {
+			for (int c = n; c >= 1; c--) {
+				mat[r][c] = mat[r + 1][c] + mat[r][c + 1];
+			}
+		}
+		return mat[1][1];
+	}
+
 	public static void main(String[] args) {
 		// fillPrimes(25);
 		// for (int i = 0; i < isPrime.length; i++) {
@@ -551,13 +619,17 @@ public class MathsSolver {
 
 		// System.out.println(excelColumnNumber("AB"));
 
-//		System.out.println(reverseInteger(-1146467285));
-		
-//		System.out.println(reverse(-1146467285));
-		
-		System.out.println(numberToTitle(300));
-		System.out.println(convertToTitle(300));
+		// System.out.println(reverseInteger(-1146467285));
 
+		// System.out.println(reverse(-1146467285));
+
+		// System.out.println(numberToTitle(300));
+		// System.out.println(convertToTitle(300));
+
+		// System.out.println(backtrack(0, 0, 23, 12));
+
+		System.out.println(td(23, 12));
+		System.out.println(dp(23, 12));
 	}
 
 }
