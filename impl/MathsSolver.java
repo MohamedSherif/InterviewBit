@@ -323,6 +323,49 @@ public class MathsSolver {
 
 		return value;
 	}
+	
+	public static String numberToTitle(int a){
+		String result = "";
+		
+		char[] alphabet = new char[26];
+		
+		for (char ch = 'A'; ch <= 'Z'; ch++) {
+			alphabet[ch - 'A'] = ch;
+		}
+		
+		if(a < 26){
+			result += alphabet[a-1];
+			return result;
+		}
+		
+		while(a > 0){
+			int index = a;
+			if(a%26 == 0){
+				index = 26;
+				a = a - 26;
+			}else{
+				index = a%26;
+			}
+			result = alphabet[index-1] + result;
+			
+			a = a / 26;
+		}
+		
+		return result;
+	}
+	
+	public static String convertToTitle(int n) {
+        StringBuilder result = new StringBuilder();
+
+        while(n>0){
+            n--;
+            result.insert(0, (char)('A' + n % 26));
+            n /= 26;
+        }
+
+        return result.toString();
+    }
+	
 	// **************************************************************
 
 	/**
@@ -470,6 +513,29 @@ public class MathsSolver {
 	}
 	// ******************************************************************
 
+	
+	public static int num(int i){
+	    int j = 1;
+	    int num = 1;
+	    while(j <= i){
+	        num = num*5;
+	        j++;
+	    }
+	    return num;
+	}
+	
+	public static int trailingZeroes(int A) {
+		int count = 0;
+	    int i = 1;
+	    while(num(i) <= A){
+	        count = count + (A/num(i));
+	        i++;
+	    }
+	    return count;
+	}
+	
+	
+	
 	public static void main(String[] args) {
 		// fillPrimes(25);
 		// for (int i = 0; i < isPrime.length; i++) {
@@ -485,9 +551,12 @@ public class MathsSolver {
 
 		// System.out.println(excelColumnNumber("AB"));
 
-		System.out.println(reverseInteger(-1146467285));
+//		System.out.println(reverseInteger(-1146467285));
 		
 //		System.out.println(reverse(-1146467285));
+		
+		System.out.println(numberToTitle(300));
+		System.out.println(convertToTitle(300));
 
 	}
 
