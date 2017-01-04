@@ -550,8 +550,8 @@ public class MathsSolver {
 	 * 
 	 * Input : A = 2, B = 2 Output : 2
 	 * 
-	 * 2 possible routes : (0, 0) -> (0, 1) -> (1, 1) 
-	 * 				  OR : (0, 0) -> (1, 0) -> (1, 1)
+	 * 2 possible routes : (0, 0) -> (0, 1) -> (1, 1) OR : (0, 0) -> (1, 0) ->
+	 * (1, 1)
 	 * 
 	 * @param r
 	 * @param c
@@ -584,7 +584,6 @@ public class MathsSolver {
 		return mat[r + 1][c] + mat[r][c + 1];
 	}
 
-	
 	public static int dp_BottomUp(int m, int n) {
 		int mat[][] = new int[m + 2][n + 2];
 
@@ -604,6 +603,76 @@ public class MathsSolver {
 		return mat[1][1];
 	}
 
+	// ********************************************************
+	/**
+	 * You are given two positive numbers A and B. You need to find the maximum
+	 * valued integer X such that:
+	 * 
+	 * X divides A i.e. A % X = 0 X and B are co-prime i.e. gcd(X, B) = 1 For
+	 * example,
+	 * 
+	 * A = 30 B = 12 We return X = 5
+	 * 
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+	public static int coprimeDivisor(int a, int b) {
+		/*
+		 * Correct Answer but it takes long time to run (it failed in the Time Limit Exceeded) 
+		 */
+		fillPrimes(Math.min(a, b));
+
+		int maxCoprime = 0;
+
+		for (int i = 0; i < isPrime.length; i++) {
+			if (isPrime[i] == true) {
+				if ((a % i == 0) && (b % i == 0)) {
+					if (maxCoprime < i)
+						maxCoprime = i;
+				}
+			}
+		}
+
+		return maxCoprime;
+	}
+
+	public static int coprimeDivisor2(int a, int b) {
+		/*
+		 * Correct Answer but it takes long time to run (it failed in the Time Limit Exceeded) 
+		 */
+		int maxCoprime = 0;
+
+		for (int x = 1; x <= a; x++) {
+			if (a % x == 0) {
+				if (gcd(x, b) == 1) {
+					if (maxCoprime < x)
+						maxCoprime = x;
+				} 
+			}
+		}
+
+		return maxCoprime;
+	}
+
+	
+	public static int cpFact(int a, int b) {
+		/*
+		 * The Correct Answer.
+		 */
+		if (gcd(a, b) == 1) {
+			return a;
+		}
+
+		while (gcd(a, b) != 1) {
+			a = a / gcd(a, b);
+		}
+
+		return a;
+	}
+
+	//****************************************
+	
 	public static void main(String[] args) {
 		// fillPrimes(25);
 		// for (int i = 0; i < isPrime.length; i++) {
@@ -628,8 +697,10 @@ public class MathsSolver {
 
 		// System.out.println(backtrack(0, 0, 23, 12));
 
-		System.out.println(td(23, 12));
-		System.out.println(dp(23, 12));
+		// System.out.println(td(23, 12));
+		// System.out.println(dp(23, 12));
+
+		System.out.println(cpFact(30, 12));
 	}
 
 }
