@@ -1,5 +1,7 @@
 package impl;
 
+import java.math.BigInteger;
+
 /**
  * A class that contains solutions for all problem of the Strings part of level 3.
  * 
@@ -221,12 +223,81 @@ public class StringsSolver {
 		return sb.toString().trim();
 	}
 	
+//	==========================
+	
+	
+	public static int power(String a) {
+        int N = Integer.parseInt(a);
+        if(N == 0)
+            return 0;
+        
+        while(N >= 1){
+            N = N/2;
+            if(N % 2 != 0 && N != 1)
+            	return 0;
+        }
+        return 1;
+    }
+	
+	
+	/**
+	 * 
+	 * 
+	 * 
+	 * Compare two version numbers version1 and version2.
+	 * 
+	 * If version1 > version2 return 1, 
+	 * If version1 < version2 return -1,
+	 * otherwise return 0. 
+	 * 
+	 * You may assume that the version strings are non-empty and contain only digits and the '.' character. 
+	 * The '.' character does not represent a decimal point and is used to separate number sequences. 
+	 * For instance, 2.5 is not "two and a half" or "half way to version three", it is the fifth second-level revision 
+	 * of the second first-level revision.
+	 * 
+	 * Here is an example of version numbers ordering:
+	 * 
+	 * 0.1 < 1.1 < 1.2 < 1.13 < 1.13.4
+	 * 
+	 * The Correct answer.
+	 * 
+	 * BigInteger Class is used instead of Integer to handle the case of the
+	 * very large Input Strings.
+	 * 
+	 * This Test Case not exist on LeetCode, I faced it on InterviewBit.
+	 * 
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+	public static int compareVersion(String a, String b) {
+	    String[] v1 = a.split("\\.");
+	    String[] v2 = b.split("\\.");
+	    
+	    for ( int i = 0; i < Math.max(v1.length, v2.length); i++ ) {
+	        BigInteger num1 = i < v1.length ? new BigInteger(v1[i]) : new BigInteger("0");
+	        BigInteger num2 = i < v2.length ? new BigInteger(v2[i]) : new BigInteger("0");
+	        
+	        int compare = num1.compareTo(num2);
+	    	if (compare != 0) {
+	    		return compare;
+	    	}
+
+	    } 
+	    
+	    return 0;
+	}
 	
 	public static void main(String[] args) {
-		System.out.println(intToRoman(14));
+//		System.out.println(intToRoman(14));
+//		
+//		System.out.println(isPalindrome("A man, a plan, a canal: Panama"));
+//		
+//		System.out.println(reverseWords(" ankrqzzcel  dyaiug y rkicv t"));
+	
+		System.out.println(power("1"));
 		
-		System.out.println(isPalindrome("A man, a plan, a canal: Panama"));
+		System.out.println(compareVersion("3", "4.12345"));
 		
-		System.out.println(reverseWords(" ankrqzzcel  dyaiug y rkicv t"));
 	}
 }
