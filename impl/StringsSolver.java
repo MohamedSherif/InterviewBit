@@ -225,21 +225,6 @@ public class StringsSolver {
 	
 //	==========================
 	
-	
-	public static int power(String a) {
-        int N = Integer.parseInt(a);
-        if(N == 0)
-            return 0;
-        
-        while(N >= 1){
-            N = N/2;
-            if(N % 2 != 0 && N != 1)
-            	return 0;
-        }
-        return 1;
-    }
-	
-	
 	/**
 	 * 
 	 * 
@@ -287,6 +272,97 @@ public class StringsSolver {
 	    
 	    return 0;
 	}
+
+	
+//	============================
+	
+	/**
+	 * The normal Power-Of-2 Problem from LeetCode. No Special Cases.
+	 * @param a
+	 * @return
+	 */
+	public static int power2(String a) {
+        int N = Integer.parseInt(a);
+        if(N == 0)
+            return 0;
+        
+        while(N >= 1){
+            N = N/2;
+            if(N % 2 != 0 && N != 1)
+            	return 0;
+        }
+        return 1;
+    }
+	
+	/**
+	 * Find if Given number is power of 2 or not. More specifically, find if
+	 * given number can be expressed as 2^k where k >= 1.
+	 * 
+	 * - Input: number length can be more than 64, which mean number can be greater than 2 ^ 64 (out of long long range) 
+	 * - Output: return 1 if the number if a power of 2 else return 0
+	 * 
+	 * Example:
+	 * 
+	 * - Input : 128 
+	 * - Output : 1
+	 * 
+	 * @param a
+	 * @return
+	 */
+	public static int power(String a) {
+        BigInteger n = new BigInteger(a);
+        
+        if(n.compareTo(java.math.BigInteger.ONE)==0 || n.compareTo(java.math.BigInteger.ZERO)==0)return 0;
+        for(int i=0; i < n.bitLength()-1; i++){
+            if(n.testBit(i))
+            	return 0;
+        }
+        return n.testBit(n.bitLength()-1)?1:0;
+    }
+	
+	/**
+	 * This solution provided on the InterviewBit website.
+	 * @param A
+	 * @return
+	 */
+	public static int power_InterviewBitAnswer(String A) {
+		String dividend = A;
+		StringBuilder str;
+
+		if (A == null || A.length() == 0)
+			return 0;
+
+		if (A.length() == 1 && A.charAt(0) == '0')
+			return 0;
+
+		while (dividend.length() > 0 && !dividend.equalsIgnoreCase("2")) {
+			str = new StringBuilder();
+			int carry = 0;
+			int n = dividend.length();
+
+			if (n > 0) {
+				int num = dividend.charAt(n - 1) - '0';
+				if (num % 2 == 1)
+					return 0;
+			}
+
+			for (int i = 0; i < n; i++) {
+				char c = (char) (dividend.charAt(i) - '0');
+				int res = c + 10 * carry;
+				c = (char) (res / 2 + '0');
+				carry = res % 2;
+				str.append(c);
+			}
+
+			if (str.charAt(0) == '0')
+				str.deleteCharAt(0);
+
+			dividend = str.toString();
+		}
+		return 1;
+	}
+	
+//	=======================================
 	
 	public static void main(String[] args) {
 //		System.out.println(intToRoman(14));
@@ -295,9 +371,10 @@ public class StringsSolver {
 //		
 //		System.out.println(reverseWords(" ankrqzzcel  dyaiug y rkicv t"));
 	
-		System.out.println(power("1"));
+		System.out.println(power("1281"));
+		System.out.println(power_InterviewBitAnswer("128"));
 		
-		System.out.println(compareVersion("3", "4.12345"));
+//		System.out.println(compareVersion("3", "4.12345"));
 		
 	}
 }
