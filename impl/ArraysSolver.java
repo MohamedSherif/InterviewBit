@@ -10,7 +10,11 @@ import java.util.List;
 import javax.print.attribute.IntegerSyntax;
 
 public class ArraysSolver {
-
+	/**
+	 * 
+	 * @param A
+	 * @return
+	 */
 	public int firstMissingPositive(int[] A) {
 
 		int n = A.length;
